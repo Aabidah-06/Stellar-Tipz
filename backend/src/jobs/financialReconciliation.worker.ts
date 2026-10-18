@@ -11,7 +11,9 @@ export function createFinancialReconciliationWorker(): Worker {
     // Reconcile the previous full UTC day after the indexer has had a grace period.
     const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
     const report = await runDailyFinancialReconciliation(yesterday);
-    if (report.status !== 'reconciled') throw new Error(`Financial report ${yesterday} requires review: ${report.status}`);
+    if (report.status !== 'reconciled') {
+      logger.error({ day: yesterday, status: report.status, discrepancies: report.discrepancies.length }, 'Financial report requires review');
+    }
   }, { connection: redis as any });
   worker.on('failed', (job, err) => logger.error({ err, jobId: job?.id }, 'Financial reconciliation job failed'));
   attachDeadLetterHandler(worker, FINANCIAL_RECONCILIATION_QUEUE);
