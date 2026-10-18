@@ -16,6 +16,13 @@ build/
 !.env.example
 .dev/
 
+# Terraform monitoring state and operator-specific values
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+*.tfvars.json
+
 # IDE / OS
 .idea/
 .vscode/
