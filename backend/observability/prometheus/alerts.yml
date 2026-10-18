@@ -187,24 +187,3 @@ groups:
             The fee collector's observed native XLM balance fell below its prior
             observation. Preserve the snapshot and follow backend/docs/TREASURY_MONITORING.md.
           runbook: backend/docs/TREASURY_MONITORING.md
-
-  - name: stellar-tipz-finance
-    rules:
-      - alert: FinancialReconciliationDiscrepancy
-        expr: tipz_financial_reconciliation_unresolved > 0
-        for: 0m
-        labels:
-          severity: critical
-          area: finance
-        annotations:
-          summary: A financial reconciliation report contains mismatched transactions
-          runbook: docs/runbooks/financial-reconciliation.md
-      - alert: FinancialReconciliationStalled
-        expr: time() - tipz_financial_reconciliation_last_success_timestamp_seconds > 172800
-        for: 15m
-        labels:
-          severity: critical
-          area: finance
-        annotations:
-          summary: No successfully verified financial audit for 48 hours
-          runbook: docs/runbooks/financial-reconciliation.md
