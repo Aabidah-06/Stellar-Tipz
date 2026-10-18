@@ -22,6 +22,10 @@ const unresolvedGauge = createGauge({
   name: 'financial_reconciliation_unresolved',
   help: 'Number of discrepancies in the latest daily financial report',
 });
+const verified = createGauge({
+  name: 'financial_reconciliation_verified',
+  help: 'Whether the latest daily report has proven complete ledger coverage and matching balances',
+});
 const lastSuccess = createGauge({
   name: 'financial_reconciliation_last_success_timestamp_seconds',
   help: 'Last day for which financial records reconciled successfully',
@@ -158,6 +162,7 @@ export async function runDailyFinancialReconciliation(day: string): Promise<Fina
     },
   });
   unresolvedGauge.set(report.discrepancies.length);
+  verified.set(report.status === 'reconciled' ? 1 : 0);
   for (const diff of report.discrepancies) discrepanciesTotal.inc({ category: diff.category });
   if (report.status === 'reconciled') lastSuccess.set(Date.now() / 1000);
   else logger.error({ day, status: report.status, discrepancies: report.discrepancies },
