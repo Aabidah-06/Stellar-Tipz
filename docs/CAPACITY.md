@@ -37,7 +37,7 @@ The table uses **explicit hypothetical monthly prices**: API instance $35, jobs 
 | Planning tier | API instances | Jobs instances | Database multiplier | RPC calls/month | Example monthly subtotal |
 |---|---:|---:|---:|---:|---:|
 | Small | 1 | 1 | 1 | 1M | $370 |
-| Medium | 3 | 2 | 2 | 5M | $1,005 |
+| Medium | 3 | 2 | 2 | 5M | $975 |
 | Large | 8 | 4 | 4 | 20M | $2,920 |
 
 Formula: `35 × API + 35 × jobs + 70 + 100 × DB multiplier + 30 + 100 × RPC millions`. The table is scenario budgeting only; benchmark results must validate service capacity at every tier before purchasing resources.
