@@ -56,7 +56,7 @@ const rpcPool = new ProviderPool('soroban', rpcUrls,
 const horizonPool = new ProviderPool('horizon', horizonUrls,
   config.circuitBreaker?.horizonThreshold ?? 5, config.circuitBreaker?.horizonResetTimeoutMs ?? 30_000,
   async (url) => {
-    const response = await fetch(`${url.replace(/\\/+$/, '')}/ledgers?order=desc&limit=1`, { signal: AbortSignal.timeout(5000) });
+    const response = await fetch(`${url.replace(/\/+$/, '')}/ledgers?order=desc&limit=1`, { signal: AbortSignal.timeout(5000) });
     if (!response.ok) throw new Error(`Horizon health returned ${response.status}`);
     const payload = await response.json() as { _embedded?: { records?: { sequence?: number }[] } };
     return Number(payload._embedded?.records?.[0]?.sequence) || null;
@@ -144,7 +144,7 @@ export async function horizonFetch(
       return horizonPool.call(async (providerUrl) => {
         // Import here to avoid cycle
         const { fetchWithTimeout } = await import("../utils/fetchWithTimeout.js");
-        const response = await fetchWithTimeout(`${providerUrl.replace(/\\/+$/, '')}${path}`, {
+        const response = await fetchWithTimeout(`${providerUrl.replace(/\/+$/, '')}${path}`, {
           ...options,
           timeoutMs,
           parentSignal: signal,
