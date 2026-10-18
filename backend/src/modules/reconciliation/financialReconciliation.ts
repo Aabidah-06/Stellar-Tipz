@@ -31,7 +31,7 @@ const TOLERANCE_STROOPS = 1n;
 function integer(value: unknown): bigint | null {
   if (typeof value === 'bigint') return value;
   if (typeof value === 'number' && Number.isSafeInteger(value)) return BigInt(value);
-  if (typeof value === 'string' && /^-?\\d+$/.test(value)) return BigInt(value);
+  if (typeof value === 'string' && /^-?\d+$/.test(value)) return BigInt(value);
   return null;
 }
 function tuple(data: unknown): unknown[] {
@@ -133,7 +133,7 @@ export function compareFinancialDay(
 
 /** UTC dates only. Cron should run after sufficient indexing finality/catch-up time. */
 export async function runDailyFinancialReconciliation(day: string): Promise<FinancialReport> {
-  if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(day)) throw new Error('Expected UTC YYYY-MM-DD');
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) throw new Error('Expected UTC YYYY-MM-DD');
   const start = new Date(`${day}T00:00:00.000Z`);
   if (Number.isNaN(start.getTime()) || start.toISOString().slice(0, 10) !== day) throw new Error('Invalid date');
   const end = new Date(start.getTime() + 86400000);
