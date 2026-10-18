@@ -110,6 +110,9 @@ export const envSchema = z.object({
   STELLAR_NETWORK: z.enum(['LOCAL', 'TESTNET', 'FUTURENET', 'MAINNET']).default('TESTNET'),
   SOROBAN_RPC_URL: z.string().url(),
   HORIZON_URL: z.string().url(),
+  /** Comma-separated failover endpoints in priority order, after the primary. */
+  SOROBAN_RPC_FALLBACK_URLS: z.string().default(''),
+  HORIZON_FALLBACK_URLS: z.string().default(''),
   NETWORK_PASSPHRASE: z.string(),
   CONTRACT_ID: z.string().optional(),
 
