@@ -133,6 +133,12 @@ export const envSchema = z.object({
    * (issue #1257). Must comfortably exceed `INDEXER_FINALITY_DEPTH`.
    */
   INDEXER_REORG_LOOKBACK: z.coerce.number().int().positive().default(64),
+  /** Public account that receives protocol fees; required to enable treasury monitoring. */
+  TREASURY_ADDRESS: z.string().regex(/^G[A-Z2-7]{55}$/).optional(),
+  /** Expected native XLM balance before indexed fee events. Kept as text to preserve stroop precision. */
+  TREASURY_OPENING_BALANCE_STROOPS: z.string().regex(/^\d+$/).default('0'),
+  /** Cron schedule for treasury balance reconciliation. */
+  TREASURY_MONITOR_CRON: z.string().default('*/5 * * * *'),
   /**
    * Leader election for running several indexer instances (issue #1263). Only
    * the instance holding the Redis lease indexes; the others stand by and take

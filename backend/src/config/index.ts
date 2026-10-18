@@ -73,6 +73,12 @@ export const config = {
     },
   },
 
+  treasury: {
+    address: env.TREASURY_ADDRESS,
+    openingBalanceStroops: env.TREASURY_OPENING_BALANCE_STROOPS,
+    monitorCron: env.TREASURY_MONITOR_CRON,
+  },
+
   twitter: {
     bearerToken: env.X_API_BEARER_TOKEN,
     baseUrl: env.X_API_BASE_URL,
