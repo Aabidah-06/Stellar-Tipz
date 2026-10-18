@@ -26,6 +26,8 @@ import {
   scheduleAuthChallengeCleanup,
   createRetentionWorker,
   scheduleRetentionPrune,
+  createTreasuryMonitorWorker,
+  scheduleTreasuryMonitor,
 } from './index.js';
 import { initTracing, shutdownTracing } from '../common/observability/tracing.js';
 
@@ -137,6 +139,10 @@ export async function bootstrapJobs(): Promise<void> {
     },
   });
   await scheduleRetentionPrune();
+
+  const treasuryWorker = createTreasuryMonitorWorker();
+  registerClosable({ name: 'TreasuryMonitorWorker', close: () => treasuryWorker.close() });
+  await scheduleTreasuryMonitor();
 
   logger.info('Jobs process started');
 
