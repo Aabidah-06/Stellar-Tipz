@@ -101,3 +101,5 @@ export {
   createRetentionWorker,
   scheduleRetentionPrune,
 } from './retention.worker.js';
+
+export { createFinancialReconciliationWorker, scheduleFinancialReconciliation } from './financialReconciliation.worker.js';
