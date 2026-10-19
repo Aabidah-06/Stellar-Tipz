@@ -28,6 +28,8 @@ import {
   scheduleRetentionPrune,
   createTreasuryMonitorWorker,
   scheduleTreasuryMonitor,
+  createFinancialReconciliationWorker,
+  scheduleFinancialReconciliation,
 } from './index.js';
 import { initTracing, shutdownTracing } from '../common/observability/tracing.js';
 
@@ -143,6 +145,10 @@ export async function bootstrapJobs(): Promise<void> {
   const treasuryWorker = createTreasuryMonitorWorker();
   registerClosable({ name: 'TreasuryMonitorWorker', close: () => treasuryWorker.close() });
   await scheduleTreasuryMonitor();
+
+  const financialWorker = createFinancialReconciliationWorker();
+  registerClosable({ name: 'FinancialReconciliationWorker', close: () => financialWorker.close() });
+  await scheduleFinancialReconciliation();
 
   logger.info('Jobs process started');
 
